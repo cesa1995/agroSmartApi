@@ -8,7 +8,9 @@ Ejemplos login:
     "email": "email@example.com",  
     "password": "passworduser"  
   }  
-  Respuestas:  
+
+  Respuestas:
+  -----------
   400:Datos incompletos  
   404:Usuario no registrado o datos incorrectos  
   200:  
@@ -22,7 +24,7 @@ Ejemplos login:
 Ejemplos create:
 ------------------
   Entradas:
-  ---------
+  --------
   {  
       "nombre": "Nombre del Usuario",  
       "apellido": "Apellido del Usuario",  
@@ -31,6 +33,7 @@ Ejemplos create:
       "nivel": "{0,1,2}",  
       "jwt": "Token que aroja el login"  
   }  
+
   Respuestas:
   -----------
   400:Sesion no iniciada  
@@ -44,13 +47,14 @@ Ejemplos create:
   }  
 
 Ejemplos delete:
------------------
+---------------
 Entradas:
----------
+--------
 {  
   "id":"id de usuario",  
   "jwt": "Token que aroja el login"  
 }  
+
 Respuestas:
 -----------
 400:sesion no iniciada  
@@ -69,6 +73,7 @@ Entradas:
   "id":"id de usuario",  
   "jwt": "Token que aroja el login"  
 }  
+
 Respuestas:
 -----------
 400:sesion no iniciada  
@@ -90,6 +95,7 @@ Entradas:
 {  
 "jwt": "Token que aroja el login"  
 }  
+
 Respuestas:
 -----------
 400:sesion no iniciada  
@@ -122,6 +128,7 @@ Entradas:
   "keywords":"palabra de busqueda",  
   "jwt": "Token que aroja el login"  
 }  
+
 Respuestas:
 -----------
 400:sesion no iniciada  
@@ -157,6 +164,7 @@ Entradas:
   "nivel":"nivel de usuario a modificar",  
   "jwt": "Token que aroja el login"  
 }  
+
 Respuestas:
 -----------
 400:sesion no iniciada  
@@ -177,6 +185,7 @@ Entradas:
   "pass2":"repetir la contraseña",  
   "jwt": "Token que aroja el login"  
 }  
+
 Respuestas:
 -----------
 400:sesion no iniciasa  
