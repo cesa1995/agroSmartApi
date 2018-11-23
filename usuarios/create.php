@@ -49,11 +49,11 @@ if(isset($data->jwt)){
                 }
             }else{
                 http_response_code(503);
-                echo json_encode(array("massage"=>"Usuario no creado. Datos no validos."));
+                echo json_encode(array("massage"=>"Usuario ya creado. Datos no validos."));
             }
         }else{
             http_response_code(400);
-            echo json_encode(array("massage"=>"Usuario no creado. Data incompleta."));
+            echo json_encode(array("massage"=>"Data incompleta."));
         }
     }else{
         http_response_code(401);
