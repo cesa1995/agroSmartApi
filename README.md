@@ -2,11 +2,11 @@ Usuarios:
 =========
 Ejemplos login:
 -----------------
-  Entradas:
-    {
-      "email": "email@example.com",
-      "password": "passworduser"
-    }
+  Entradas:  
+  {  
+    "email": "email@example.com",  
+    "password": "passworduser"  
+  }  
   Respuestas:
   400:Datos incompletos
   404:Usuario no registrado o datos incorrectos
