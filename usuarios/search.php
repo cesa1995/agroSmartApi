@@ -26,8 +26,6 @@ if(isset($data->jwt)){
         $db=$database->getConnection();
         $usuarios = new usuarios($db);
 
-        $data = json_decode(file_get_contents("php://input"));
-
         $keywords=$data->keywords;
 
         $stmt=$usuarios->search($keywords);

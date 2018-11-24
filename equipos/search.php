@@ -11,7 +11,7 @@ require_once '../php-jwt/src/ExpiredException.php';
 require_once '../php-jwt/src/SignatureInvalidException.php';
 require_once '../php-jwt/src/JWT.php';
 include_once '../config/database.php';
-include_once '../object/usuarios.php';
+include_once '../object/equipos.php';
 include_once '../object/jwt.php';
 
 
@@ -24,20 +24,32 @@ if(isset($data->jwt)){
     if($token && $validToken->nivel==0){
         $database = new Database();
         $db=$database->getConnection();
-        $usuarios = new usuarios($db);
-        if(isset($data->id)){
-            $usuarios->id=$data->id;
+        $equipos = new equipos($db);
 
-            if($usuarios->delete()){
-                http_response_code(200);
-                echo json_encode(array("massage"=>"Usuario eliminado"));
-            }else{
-                http_response_code(503);
-                echo json_encode(array("massage"=>"Usuario no eliminado"));
+        $keywords=$data->keywords;
+
+        $stmt=$equipos->search($keywords);
+        $num=$stmt->rowCount();
+
+        if($num>0){
+            $equipos_arr=array();
+            $equipos_arr["records"]=array();
+
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                extract($row);
+                $equipos_item=array(
+                    "id" => $id,
+                    "nombre"=>$nombre,
+                    "devicetype"=>$devicetype,
+                    "descripcion"=>$descripcion,
+                );
+                array_push($equipos_arr["records"], $equipos_item);
             }
+            http_response_code(200);
+            echo json_encode($equipos_arr);
         }else{
-            http_response_code(400);
-            echo json_encode(array("massage"=>"Data Incompleta"));
+            http_response_code(404);
+            echo json_encode(array("massage"=>"No hay equipos encontrados."));
         }
     }else{
         http_response_code(401);

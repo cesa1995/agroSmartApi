@@ -25,22 +25,28 @@ if(isset($data->jwt)){
         $db=$database->getConnection();
         $usuarios = new usuarios($db);
 
-        $data = json_decode(file_get_contents("php://input"));
+        if(
+            isset($data->id) &&
+            isset($data->nombre) &&
+            isset($data->apellido) &&
+            isset($data->nivel
+        )){
+            $usuarios->id=$data->id;
+            $usuarios->nombre=$data->nombre;
+            $usuarios->apellido=$data->apellido;
+            $usuarios->nivel=$data->nivel;
 
-        $usuarios->id=$data->id;
-
-        $usuarios->nombre=$data->nombre;
-        $usuarios->apellido=$data->apellido;
-        $usuarios->nivel=$data->nivel;
-
-        if($usuarios->update()){
-            http_response_code(200);
-            echo json_encode(array("massage"=>"Usuario actualizado."));
+            if($usuarios->update()){
+                http_response_code(200);
+                echo json_encode(array("massage"=>"Usuario actualizado."));
+            }else{
+                http_response_code(503);
+                echo json_encode(array("message"=>"Usuario no actualizado."));
+            }
         }else{
-            http_response_code(503);
-            echo json_encode(array("message"=>"Usuario no actualizado."));
+            http_response_code(400);
+            echo json_encode(array("message"=>"Data Incompleta."));
         }
-
     }else{
         http_response_code(401);
         echo json_encode(array("massage"=>"no autorizado"));

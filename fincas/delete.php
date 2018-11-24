@@ -11,7 +11,7 @@ require_once '../php-jwt/src/ExpiredException.php';
 require_once '../php-jwt/src/SignatureInvalidException.php';
 require_once '../php-jwt/src/JWT.php';
 include_once '../config/database.php';
-include_once '../object/usuarios.php';
+include_once '../object/fincas.php';
 include_once '../object/jwt.php';
 
 
@@ -24,20 +24,20 @@ if(isset($data->jwt)){
     if($token && $validToken->nivel==0){
         $database = new Database();
         $db=$database->getConnection();
-        $usuarios = new usuarios($db);
+        $fincas = new fincas($db);
         if(isset($data->id)){
-            $usuarios->id=$data->id;
+            $fincas->id=$data->id;
 
-            if($usuarios->delete()){
+            if($fincas->delete()){
                 http_response_code(200);
-                echo json_encode(array("massage"=>"Usuario eliminado"));
+                echo json_encode(array("massage"=>"Finca eliminado"));
             }else{
                 http_response_code(503);
-                echo json_encode(array("massage"=>"Usuario no eliminado"));
+                echo json_encode(array("massage"=>"Finca no eliminado"));
             }
         }else{
             http_response_code(400);
-            echo json_encode(array("massage"=>"Data Incompleta"));
+            echo json_encode(array("message"=>"Data Incompleta"));
         }
     }else{
         http_response_code(401);

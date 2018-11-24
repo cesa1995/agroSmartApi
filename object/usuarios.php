@@ -149,7 +149,7 @@ class usuarios{
     }
 
     function readOne(){
-        $query = "SELECT nombre,apellido,email,nivel FROM usuarios WHERE id=:id";
+        $query = "SELECT nombre,apellido,email,nivel FROM ".$this->table_name." WHERE id=:id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id",$this->id);
         $stmt->execute();

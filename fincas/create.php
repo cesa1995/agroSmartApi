@@ -1,5 +1,4 @@
 <?php
-
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
@@ -11,7 +10,7 @@ require_once '../php-jwt/src/ExpiredException.php';
 require_once '../php-jwt/src/SignatureInvalidException.php';
 require_once '../php-jwt/src/JWT.php';
 include_once '../config/database.php';
-include_once '../object/usuarios.php';
+include_once '../object/fincas.php';
 include_once '../object/jwt.php';
 
 
@@ -24,20 +23,33 @@ if(isset($data->jwt)){
     if($token && $validToken->nivel==0){
         $database = new Database();
         $db=$database->getConnection();
-        $usuarios = new usuarios($db);
-        if(isset($data->id)){
-            $usuarios->id=$data->id;
+        $fincas = new fincas($db);
 
-            if($usuarios->delete()){
-                http_response_code(200);
-                echo json_encode(array("massage"=>"Usuario eliminado"));
+        $data = json_decode(file_get_contents("php://input"));
+
+        if(
+            !empty($data->nombre) &&
+            !empty($data->telefono) &&
+            !empty($data->direccion)
+        ){
+            $fincas->nombre=$data->nombre;
+            $fincas->telefono=$data->telefono;
+            if($fincas->valid()){
+                $fincas->direccion=$data->direccion;
+                if($fincas->create()){
+                    http_response_code(201);
+                    echo json_encode(array("massage"=>"Finca creado."));
+                }else{
+                    http_response_code(503);
+                    echo json_encode(array("massage"=>"Finca no creado"));
+                }
             }else{
                 http_response_code(503);
-                echo json_encode(array("massage"=>"Usuario no eliminado"));
+                echo json_encode(array("massage"=>"Finca ya creado. Datos no validos."));
             }
         }else{
             http_response_code(400);
-            echo json_encode(array("massage"=>"Data Incompleta"));
+            echo json_encode(array("massage"=>"Data incompleta."));
         }
     }else{
         http_response_code(401);
@@ -47,5 +59,6 @@ if(isset($data->jwt)){
     http_response_code(400);
     echo json_encode(array("message"=>"sesion no iniciada."));
 }
+
 
 ?>
