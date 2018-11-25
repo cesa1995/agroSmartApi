@@ -1,4 +1,5 @@
 <?php
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
@@ -10,7 +11,7 @@ require_once '../php-jwt/src/ExpiredException.php';
 require_once '../php-jwt/src/SignatureInvalidException.php';
 require_once '../php-jwt/src/JWT.php';
 include_once '../config/database.php';
-include_once '../object/equipos.php';
+include_once '../object/asociar.php';
 include_once '../object/jwt.php';
 
 
@@ -21,34 +22,37 @@ if(isset($data->jwt)){
     $validToken->jwt = $data->jwt;
     $token=$validToken->tokenlife();
     if($token && $validToken->nivel==0){
+
         $database = new Database();
-        $db=$database->getConnection();
-        $equipos = new equipos($db);
+        $db = $database->getConnection();
 
+        $asociar = new asociar($db);
 
-        if(
-            !empty($data->nombre) &&
-            !empty($data->devicetype) &&
-            !empty($data->descripcion)
-        ){
-            $equipos->nombre=$data->nombre;
-            if($equipos->valid()){
-                $equipos->devicetype=$data->devicetype;
-                $equipos->descripcion=$data->descripcion;
-                if($equipos->create()){
-                    http_response_code(201);
-                    echo json_encode(array("massage"=>"Equipo creado."));
-                }else{
-                    http_response_code(503);
-                    echo json_encode(array("massage"=>"Equipo no creado"));
-                }
-            }else{
-                http_response_code(503);
-                echo json_encode(array("massage"=>"Equipo ya creado. Datos no validos."));
+        $asociar->fincaid=$data->fincaid;
+        $stmt = $asociar->readequipos();
+        $num = $stmt->rowCount();
+
+        if($num>0){
+            $equipos_arr = array();
+            $equipos_arr["records"]=array();
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                extract($row);
+
+                $equipos_item=array(
+                    "id" => $id,
+                    "finca" => $finca,
+                    "equipo" => $equipo,
+                    "estado" => $estado
+                );
+                array_push($equipos_arr["records"],$equipos_item);
             }
+
+            http_response_code(200);
+            echo json_encode($equipos_arr);
         }else{
-            http_response_code(400);
-            echo json_encode(array("massage"=>"Data incompleta."));
+            http_response_code(404);
+            echo json_encode(array("message"=>"no hay equipos."));
         }
     }else{
         http_response_code(401);
@@ -58,6 +62,5 @@ if(isset($data->jwt)){
     http_response_code(400);
     echo json_encode(array("message"=>"sesion no iniciada."));
 }
-
 
 ?>

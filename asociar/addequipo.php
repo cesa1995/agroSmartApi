@@ -10,7 +10,7 @@ require_once '../php-jwt/src/ExpiredException.php';
 require_once '../php-jwt/src/SignatureInvalidException.php';
 require_once '../php-jwt/src/JWT.php';
 include_once '../config/database.php';
-include_once '../object/equipos.php';
+include_once '../object/asociar.php';
 include_once '../object/jwt.php';
 
 
@@ -23,28 +23,22 @@ if(isset($data->jwt)){
     if($token && $validToken->nivel==0){
         $database = new Database();
         $db=$database->getConnection();
-        $equipos = new equipos($db);
-
+        $asociar = new asociar($db);
 
         if(
-            !empty($data->nombre) &&
-            !empty($data->devicetype) &&
-            !empty($data->descripcion)
+            !empty($data->fincaid) || $data->fincaid=="0" &&
+            !empty($data->equipoid) || $data->equipoid=="0" &&
+            !empty($data->estado) || $data->estado=="0"
         ){
-            $equipos->nombre=$data->nombre;
-            if($equipos->valid()){
-                $equipos->devicetype=$data->devicetype;
-                $equipos->descripcion=$data->descripcion;
-                if($equipos->create()){
-                    http_response_code(201);
-                    echo json_encode(array("massage"=>"Equipo creado."));
-                }else{
-                    http_response_code(503);
-                    echo json_encode(array("massage"=>"Equipo no creado"));
-                }
+            $asociar->fincaid=$data->fincaid;
+            $asociar->equipoid=$data->equipoid;
+            $asociar->estado=$data->estado;
+            if($asociar->addEquipo()){
+                http_response_code(201);
+                echo json_encode(array("massage"=>"Equipo agegado."));
             }else{
                 http_response_code(503);
-                echo json_encode(array("massage"=>"Equipo ya creado. Datos no validos."));
+                echo json_encode(array("massage"=>"Equipo no agregado."));
             }
         }else{
             http_response_code(400);

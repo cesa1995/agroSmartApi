@@ -10,7 +10,7 @@ require_once '../php-jwt/src/ExpiredException.php';
 require_once '../php-jwt/src/SignatureInvalidException.php';
 require_once '../php-jwt/src/JWT.php';
 include_once '../config/database.php';
-include_once '../object/equipos.php';
+include_once '../object/asociar.php';
 include_once '../object/jwt.php';
 
 
@@ -23,28 +23,25 @@ if(isset($data->jwt)){
     if($token && $validToken->nivel==0){
         $database = new Database();
         $db=$database->getConnection();
-        $equipos = new equipos($db);
-
+        $asociar = new asociar($db);
 
         if(
-            !empty($data->nombre) &&
-            !empty($data->devicetype) &&
-            !empty($data->descripcion)
+            !empty($data->fincaid) || $data->fincaid=="0" &&
+            !empty($data->usuarioid) || $data->usuarioid=="0"
         ){
-            $equipos->nombre=$data->nombre;
-            if($equipos->valid()){
-                $equipos->devicetype=$data->devicetype;
-                $equipos->descripcion=$data->descripcion;
-                if($equipos->create()){
+            $asociar->fincaid=$data->fincaid;
+            $asociar->usuarioid=$data->usuarioid;
+            if($asociar->validUsuario()){
+                if($asociar->addUsuario()){
                     http_response_code(201);
-                    echo json_encode(array("massage"=>"Equipo creado."));
+                    echo json_encode(array("massage"=>"Usuario agegado."));
                 }else{
                     http_response_code(503);
-                    echo json_encode(array("massage"=>"Equipo no creado"));
+                    echo json_encode(array("massage"=>"Usuario no agregado."));
                 }
             }else{
                 http_response_code(503);
-                echo json_encode(array("massage"=>"Equipo ya creado. Datos no validos."));
+                echo json_encode(array("massage"=>"Usuario ya agregado a la finca."));
             }
         }else{
             http_response_code(400);
@@ -58,6 +55,3 @@ if(isset($data->jwt)){
     http_response_code(400);
     echo json_encode(array("message"=>"sesion no iniciada."));
 }
-
-
-?>

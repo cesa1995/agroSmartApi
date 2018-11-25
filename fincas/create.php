@@ -25,7 +25,6 @@ if(isset($data->jwt)){
         $db=$database->getConnection();
         $fincas = new fincas($db);
 
-        $data = json_decode(file_get_contents("php://input"));
 
         if(
             !empty($data->nombre) &&

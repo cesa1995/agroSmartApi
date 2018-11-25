@@ -14,6 +14,17 @@ class usuarios{
         $this->conn = $db;
     }
 
+    function readNivel($nivel1,$nivel2){
+        $query="SELECT * FROM ".$this->table_name." WHERE nivel=? OR nivel=?";
+        $stmt=$this->conn->prepare($query);
+        $nivel1=htmlspecialchars(strip_tags($nivel1));
+        $nivel2=htmlspecialchars(strip_tags($nivel2));
+        $stmt->bindParam(1,$nivel1);
+        $stmt->bindParam(2,$nivel2);
+        $stmt->execute();
+        return $stmt;
+    }
+
     function login(){
         $query="SELECT * FROM ".$this->table_name." WHERE email=:email";
         $stmt=$this->conn->prepare($query);
