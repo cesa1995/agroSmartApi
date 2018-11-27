@@ -12,6 +12,14 @@ class equipos{
         $this->conn = $db;
     }
 
+    function count(){
+        $query="SELECT COUNT(id) as equipos FROM ".$this->table_name;
+        $stmt=$this->conn->prepare($query);
+        $stmt->execute();
+        $row=$stmt->fetch(PDO::FETCH_ASSOC);
+        return $row;
+    }
+
     function search($keywords){
         $query="SELECT * FROM ".$this->table_name . " WHERE
             nombre LIKE ? OR

@@ -1,4 +1,5 @@
 <?php
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
@@ -22,31 +23,12 @@ if(isset($data->jwt)){
     $token=$validToken->tokenlife();
     if($token && $validToken->nivel==0){
         $database = new Database();
-        $db=$database->getConnection();
+        $db = $database->getConnection();
         $equipos = new equipos($db);
+        $stmt = $equipos->count();
+        http_response_code(200);
+        echo json_encode(array("equipos"=>$stmt['equipos']));
 
-        if(
-            isset($data->id) &&
-            isset($data->nombre) &&
-            isset($data->devicetype) &&
-            isset($data->descripcion)
-        ){
-            $equipos->id=$data->id;
-            $equipos->nombre=$data->nombre;
-            $equipos->devicetype=$data->devicetype;
-            $equipos->descripcion=$data->descripcion;
-
-            if($equipos->update()){
-                http_response_code(200);
-                echo json_encode(array("message"=>"Equipo actualizado."));
-            }else{
-                http_response_code(503);
-                echo json_encode(array("message"=>"Equipo no actualizado."));
-            }
-        }else{
-            http_response_code(400);
-            echo json_encode(array("message"=>"Data Incompleta."));
-        }
     }else{
         http_response_code(401);
         echo json_encode(array("message"=>"no autorizado"));

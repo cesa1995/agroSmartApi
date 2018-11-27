@@ -30,18 +30,18 @@ if(isset($data->jwt)){
 
             if($usuarios->delete()){
                 http_response_code(200);
-                echo json_encode(array("massage"=>"Usuario eliminado"));
+                echo json_encode(array("message"=>"Usuario eliminado"));
             }else{
                 http_response_code(503);
-                echo json_encode(array("massage"=>"Usuario no eliminado"));
+                echo json_encode(array("message"=>"Usuario no eliminado"));
             }
         }else{
             http_response_code(400);
-            echo json_encode(array("massage"=>"Data Incompleta"));
+            echo json_encode(array("message"=>"Data Incompleta"));
         }
     }else{
         http_response_code(401);
-        echo json_encode(array("massage"=>"no autorizado"));
+        echo json_encode(array("message"=>"no autorizado"));
     }
 }else{
     http_response_code(400);

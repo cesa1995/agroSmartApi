@@ -50,11 +50,11 @@ if(isset($data->jwt)){
             echo json_encode($usuarios_arr);
         }else{
             http_response_code(404);
-            echo json_encode(array("massage"=>"No hay usuarios encontrados."));
+            echo json_encode(array("message"=>"No hay usuarios encontrados."));
         }
     }else{
         http_response_code(401);
-        echo json_encode(array("massage"=>"no autorizado"));
+        echo json_encode(array("message"=>"no autorizado"));
     }
 }else{
     http_response_code(400);

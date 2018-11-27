@@ -173,11 +173,19 @@ class usuarios{
     }
 
     public function count(){
-        $query = "SELECT COUNT(*) as total_rows FROM " . $this->table_name . "";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row['total_rows'];
+        $count_arr=array();
+        for($i=0;$i<3;$i++){
+            $var="usuarios_".(string)$i;
+            $bind=(string)$i;
+            $query = "SELECT COUNT(nivel) as ".$var." FROM " . $this->table_name . "
+                WHERE nivel=?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(1,$bind);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $count_arr[$var]+=$row[$var];
+        }
+        return $count_arr;
     }
 }
 ?>

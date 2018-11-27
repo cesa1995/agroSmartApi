@@ -33,6 +33,7 @@ require_once '../object/jwt.php';
             $result =array(
                 "nombre"=>$usuarios->nombre,
                 "apellido"=>$usuarios->apellido,
+                "nivel"=>$usuarios->nivel,
                 "jwt"=>$token->jwt
             );
             http_response_code(200);

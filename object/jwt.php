@@ -5,6 +5,8 @@ class myjwt{
     public $jwt;
     public $tokenlife;
     public $nivel;
+    public $nombre;
+    public $apellido;
     public $id;
     private $key;
     private $JWT;

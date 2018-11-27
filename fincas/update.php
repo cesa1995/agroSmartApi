@@ -37,18 +37,18 @@ if(isset($data->jwt)){
 
             if($fincas->update()){
                 http_response_code(200);
-                echo json_encode(array("massage"=>"Finca actualizado."));
+                echo json_encode(array("message"=>"Finca actualizado."));
             }else{
                 http_response_code(503);
                 echo json_encode(array("message"=>"Finca no actualizado."));
             }
         }else{
             http_response_code(400);
-            echo json_encode(array("massage"=>"Data incompleta"));
+            echo json_encode(array("message"=>"Data incompleta"));
         }
     }else{
         http_response_code(401);
-        echo json_encode(array("massage"=>"no autorizado"));
+        echo json_encode(array("message"=>"no autorizado"));
     }
 }else{
     http_response_code(400);

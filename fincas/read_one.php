@@ -38,11 +38,11 @@ if(isset($data->jwt)){
             echo json_encode($fincas_arr);
         }else{
             http_response_code(404);
-            echo json_encode(array("massage"=>"Finca no existente."));
+            echo json_encode(array("message"=>"Finca no existente."));
         }
     }else{
         http_response_code(401);
-        echo json_encode(array("massage"=>"no autorizado o datos incompletos."));
+        echo json_encode(array("message"=>"no autorizado o datos incompletos."));
     }
 }else{
     http_response_code(400);

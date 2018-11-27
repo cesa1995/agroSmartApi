@@ -38,7 +38,7 @@ if(isset($data->jwt)){
 
             if($usuarios->update()){
                 http_response_code(200);
-                echo json_encode(array("massage"=>"Usuario actualizado."));
+                echo json_encode(array("message"=>"Usuario actualizado."));
             }else{
                 http_response_code(503);
                 echo json_encode(array("message"=>"Usuario no actualizado."));
@@ -49,7 +49,7 @@ if(isset($data->jwt)){
         }
     }else{
         http_response_code(401);
-        echo json_encode(array("massage"=>"no autorizado"));
+        echo json_encode(array("message"=>"no autorizado"));
     }
 }else{
     http_response_code(400);

@@ -55,7 +55,7 @@ if(isset($data->jwt)){
         }
     }else{
         http_response_code(401);
-        echo json_encode(array("massage"=>"no autorizado"));
+        echo json_encode(array("message"=>"no autorizado"));
     }
 }else{
     http_response_code(400);

@@ -30,10 +30,10 @@ if(isset($data->jwt)){
 
             if($fincas->delete()){
                 http_response_code(200);
-                echo json_encode(array("massage"=>"Finca eliminado"));
+                echo json_encode(array("message"=>"Finca eliminado"));
             }else{
                 http_response_code(503);
-                echo json_encode(array("massage"=>"Finca no eliminado"));
+                echo json_encode(array("message"=>"Finca no eliminado"));
             }
         }else{
             http_response_code(400);
@@ -41,7 +41,7 @@ if(isset($data->jwt)){
         }
     }else{
         http_response_code(401);
-        echo json_encode(array("massage"=>"no autorizado"));
+        echo json_encode(array("message"=>"no autorizado"));
     }
 }else{
     http_response_code(400);

@@ -37,22 +37,22 @@ if(isset($data->jwt)){
                 $fincas->direccion=$data->direccion;
                 if($fincas->create()){
                     http_response_code(201);
-                    echo json_encode(array("massage"=>"Finca creado."));
+                    echo json_encode(array("message"=>"Finca creado."));
                 }else{
                     http_response_code(503);
-                    echo json_encode(array("massage"=>"Finca no creado"));
+                    echo json_encode(array("message"=>"Finca no creado"));
                 }
             }else{
                 http_response_code(503);
-                echo json_encode(array("massage"=>"Finca ya creado. Datos no validos."));
+                echo json_encode(array("message"=>"Finca ya creado. Datos no validos."));
             }
         }else{
             http_response_code(400);
-            echo json_encode(array("massage"=>"Data incompleta."));
+            echo json_encode(array("message"=>"Data incompleta."));
         }
     }else{
         http_response_code(401);
-        echo json_encode(array("massage"=>"no autorizado"));
+        echo json_encode(array("message"=>"no autorizado"));
     }
 }else{
     http_response_code(400);
