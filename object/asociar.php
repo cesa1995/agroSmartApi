@@ -1,9 +1,9 @@
 <?php
 class asociar{
-    public $id;
-    public $fincaid;
-    public $usuarioid;
-    public $equipoid;
+    public $id=null;
+    public $fincaid=null;
+    public $usuarioid=null;
+    public $equipoid=null;
     public $estado;
 
     private $conn;
@@ -15,10 +15,12 @@ class asociar{
     }
 
     function deleteusuario(){
-        $query="DELETE FROM " . $this->usuario_table . " WHERE id=:id";
+        $query="DELETE FROM " . $this->usuario_table . " WHERE id=:id OR usuarioid=:usuarioid OR fincaid=:fincaid";
         $stmt=$this->conn->prepare($query);
         $this->id=htmlspecialchars(strip_tags($this->id));
         $stmt->bindParam(":id", $this->id);
+        $stmt->bindParam(":usuarioid", $this->usuarioid);
+        $stmt->bindParam(":fincaid", $this->fincaid);
         if($stmt->execute()){
             return true;
         }
@@ -26,10 +28,12 @@ class asociar{
     }
 
     function deleteequipo(){
-        $query="DELETE FROM " . $this->equipo_table . " WHERE id=:id";
+        $query="DELETE FROM " . $this->equipo_table . " WHERE id=:id OR equipoid=:equipoid OR fincaid=:fincaid";
         $stmt=$this->conn->prepare($query);
         $this->id=htmlspecialchars(strip_tags($this->id));
         $stmt->bindParam(":id",$this->id);
+        $stmt->bindParam(":equipoid",$this->equipoid);
+        $stmt->bindParam(":fincaid", $this->fincaid);
         if($stmt->execute()){
             return true;
         }
@@ -37,7 +41,7 @@ class asociar{
     }
 
     function readusuarios(){
-        $query="SELECT fincausu.id, fincas.nombre as finca, usuarios.nombre as usuario, usuarios.email as email FROM "
+        $query="SELECT fincausu.id, fincas.nombre as finca, usuarios.nombre as usuario, usuarios.nivel as nivel, usuarios.email as email FROM "
             . $this->usuario_table . "
             INNER JOIN usuarios ON
                 usuarios.id=fincausu.usuarioid AND fincausu.fincaid=:fincaid

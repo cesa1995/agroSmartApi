@@ -34,22 +34,22 @@ if(isset($data->jwt)){
             if($asociar->validUsuario()){
                 if($asociar->addUsuario()){
                     http_response_code(201);
-                    echo json_encode(array("massage"=>"Usuario agegado."));
+                    echo json_encode(array("message"=>"Usuario agegado."));
                 }else{
                     http_response_code(503);
-                    echo json_encode(array("massage"=>"Usuario no agregado."));
+                    echo json_encode(array("message"=>"Usuario no agregado."));
                 }
             }else{
                 http_response_code(503);
-                echo json_encode(array("massage"=>"Usuario ya agregado a la finca."));
+                echo json_encode(array("message"=>"Usuario ya agregado a la finca."));
             }
         }else{
             http_response_code(400);
-            echo json_encode(array("massage"=>"Data incompleta."));
+            echo json_encode(array("message"=>"Data incompleta."));
         }
     }else{
         http_response_code(401);
-        echo json_encode(array("massage"=>"no autorizado"));
+        echo json_encode(array("message"=>"no autorizado"));
     }
 }else{
     http_response_code(400);

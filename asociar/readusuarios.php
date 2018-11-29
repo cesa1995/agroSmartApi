@@ -43,7 +43,8 @@ if(isset($data->jwt)){
                     "id" => $id,
                     "finca" => $finca,
                     "usuario"=> $usuario,
-                    "equipo" => $email
+                    "email" => $email,
+                    "nivel" => $nivel
                 );
                 array_push($usuario_arr["records"],$usuario_item);
             }
@@ -56,7 +57,7 @@ if(isset($data->jwt)){
         }
     }else{
         http_response_code(401);
-        echo json_encode(array("massage"=>"no autorizado"));
+        echo json_encode(array("message"=>"no autorizado"));
     }
 }else{
     http_response_code(400);

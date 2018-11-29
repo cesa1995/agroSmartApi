@@ -13,6 +13,7 @@ require_once '../php-jwt/src/JWT.php';
 include_once '../config/database.php';
 include_once '../object/fincas.php';
 include_once '../object/jwt.php';
+include_once '../object/asociar.php';
 
 
 $data = json_decode(file_get_contents("php://input"));
@@ -27,8 +28,10 @@ if(isset($data->jwt)){
         $fincas = new fincas($db);
         if(isset($data->id)){
             $fincas->id=$data->id;
+            $asociar= new asociar($db);
+            $asociar->fincaid=$data->id;
 
-            if($fincas->delete()){
+            if($fincas->delete() && $asociar->deleteequipo() && $asociar->deleteusuario()){
                 http_response_code(200);
                 echo json_encode(array("message"=>"Finca eliminado"));
             }else{

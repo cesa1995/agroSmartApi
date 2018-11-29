@@ -25,9 +25,10 @@ if(isset($data->jwt)){
         $database = new Database();
         $db=$database->getConnection();
         $asociar = new asociar($db);
-        if(isset($data->id)){
+        if(isset($data->id) || isset($data->usuarioid) || isset($data->fincaid)){
             $asociar->id=$data->id;
-
+            $asociar->usuarioid=$data->usuarioid;
+            $asociar->fincaid=$data->fincaid;
             if($asociar->deleteusuario()){
                 http_response_code(200);
                 echo json_encode(array("massage"=>"Usuario eliminado"));

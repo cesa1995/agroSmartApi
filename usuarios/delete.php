@@ -13,6 +13,7 @@ require_once '../php-jwt/src/JWT.php';
 include_once '../config/database.php';
 include_once '../object/usuarios.php';
 include_once '../object/jwt.php';
+include_once '../object/asociar.php';
 
 
 $data = json_decode(file_get_contents("php://input"));
@@ -27,8 +28,10 @@ if(isset($data->jwt)){
         $usuarios = new usuarios($db);
         if(isset($data->id)){
             $usuarios->id=$data->id;
+            $asociar=new asociar($db);
+            $asociar->usuarioid=$data->id;
 
-            if($usuarios->delete()){
+            if($usuarios->delete() && $asociar->deleteusuario()){
                 http_response_code(200);
                 echo json_encode(array("message"=>"Usuario eliminado"));
             }else{
