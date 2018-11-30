@@ -30,7 +30,7 @@ if(isset($data->jwt)){
             !empty($data->nombre) &&
             !empty($data->apellido) &&
             !empty($data->email) &&
-            !empty($data->nivel) &&
+            !empty($data->nivel) || $data->nivel==0 &&
             !empty($data->password)
         ){
             $usuarios->email=$data->email;
