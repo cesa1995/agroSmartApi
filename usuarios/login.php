@@ -41,7 +41,6 @@ require_once '../object/jwt.php';
 
         }else{
             http_response_code(404);
-
             echo json_encode(array("message"=>"Email o password invalido."));
         }
     }else{
