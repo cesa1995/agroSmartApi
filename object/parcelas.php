@@ -91,7 +91,10 @@ class parcelas{
     }
 
     function read(){
-        $query="SELECT * FROM ". $this->table_name;
+        $query="SELECT parcelas.id, parcelas.nombre, parcelas.tipo, parcelas.idfinca, fincas.nombre as finca FROM "
+        . $this->table_name."
+        INNER JOIN fincas ON
+            fincas.id=parcelas.idfinca";
         $stmt=$this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
