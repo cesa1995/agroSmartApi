@@ -41,9 +41,7 @@ if(isset($data->jwt)){
                 $parcelas_item=array(
                     "id" => $id,
                     "nombre" => $nombre,
-                    "tipo" => $tipo,
-                    "finca" =>$finca,
-                    "idfinca" => $idfinca,
+                    "tipo" => $tipo
                 );
                 array_push($parcelas_arr["records"],$parcelas_item);
             }

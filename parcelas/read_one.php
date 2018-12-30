@@ -32,8 +32,6 @@ if(isset($data->jwt)){
                 "id"=>$parcelas->id,
                 "nombre"=>$parcelas->nombre,
                 "tipo"=>$parcelas->tipo,
-                "idfinca"=>$parcelas->idfinca,
-                "finca"=>$parcelas->finca,
             );
             http_response_code(200);
             echo json_encode($parcelas_arr);

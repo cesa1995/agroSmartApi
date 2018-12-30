@@ -26,12 +26,10 @@ if(isset($data->jwt)){
         $parcelas = new parcelas($db);
         if(
             !empty($data->nombre) &&
-            !empty($data->tipo) &&
-            !empty($data->idfinca)
+            !empty($data->tipo)
         ){
                 $parcelas->nombre=$data->nombre;
                 $parcelas->tipo=$data->tipo;
-                $parcelas->idfinca=$data->idfinca;
                 if($parcelas->create()){
                     http_response_code(201);
                     echo json_encode(array("message"=>"Parcela creado."));

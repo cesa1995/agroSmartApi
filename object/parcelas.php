@@ -22,9 +22,8 @@ class parcelas{
     }
 
     function search($keywords){
-        $query="SELECT parcelas.id, parcelas.nombre, parcelas.tipo, parcelas.idfinca, fincas.nombre as finca FROM ".$this->table_name."
-        INNER JOIN fincas ON
-            fincas.id=parcelas.idfinca AND
+        $query="SELECT * FROM ".$this->table_name."
+        WHERE
             parcelas.nombre LIKE ? OR
             parcelas.tipo LIKE ?
         ORDER BY nombre DESC";
@@ -53,10 +52,9 @@ class parcelas{
     }
 
     function readOne(){
-        $query="SELECT fincas.nombre as finca, parcelas.nombre as nombre, parcelas.tipo as tipo, parcelas.idfinca as idfinca
+        $query="SELECT *
         FROM ".$this->table_name."
-        INNER JOIN fincas ON
-            fincas.id=parcelas.idfinca AND parcelas.id=:id";
+        WHERE id=:id";
         $stmt=$this->conn->prepare($query);
         $this->id=htmlspecialchars(strip_tags($this->id));
         $stmt->bindParam(":id", $this->id);
@@ -65,8 +63,6 @@ class parcelas{
 
         $this->nombre=$row['nombre'];
         $this->tipo=$row['tipo'];
-        $this->idfinca=$row['idfinca'];
-        $this->finca=$row['finca'];
     }
 
     function update(){
@@ -91,26 +87,23 @@ class parcelas{
     }
 
     function read(){
-        $query="SELECT parcelas.id, parcelas.nombre, parcelas.tipo, parcelas.idfinca, fincas.nombre as finca FROM "
-        . $this->table_name."
-        INNER JOIN fincas ON
-            fincas.id=parcelas.idfinca";
+        $query="SELECT * FROM "
+        . $this->table_name;
         $stmt=$this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
 
+
     function create(){
         $query="INSERT INTO " . $this->table_name .
-        " SET nombre=:nombre, tipo=:tipo, idfinca=:idfinca";
+        " SET nombre=:nombre, tipo=:tipo";
         $stmt=$this->conn->prepare($query);
         $this->nombre = htmlspecialchars(strip_tags($this->nombre));
         $this->tipo= htmlspecialchars(strip_tags($this->tipo));
-        $this->idfinca=htmlspecialchars(strip_tags($this->idfinca));
 
         $stmt->bindParam(":nombre", $this->nombre);
         $stmt->bindParam(":tipo", $this->tipo);
-        $stmt->bindParam(":idfinca", $this->idfinca);
 
         if($stmt->execute()){
             return true;
